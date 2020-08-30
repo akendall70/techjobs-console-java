@@ -2,7 +2,11 @@ package org.launchcode.techjobs.console;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
+import static org.launchcode.techjobs.console.JobData.allJobs;
+import static org.launchcode.techjobs.console.JobData.findAll;
 
 /**
  * Created by LaunchCode
@@ -38,10 +42,10 @@ public class TechJobs {
                 String columnChoice = getUserSelection("List", columnChoices);
 
                 if (columnChoice.equals("all")) {
-                    printJobs(JobData.findAll());
+                    printJobs(findAll());
                 } else {
 
-                    ArrayList<String> results = JobData.findAll(columnChoice);
+                    ArrayList<String> results = findAll(columnChoice);
 
                     System.out.println("\n*** All " + columnChoices.get(columnChoice) + " Values ***");
 
@@ -61,7 +65,7 @@ public class TechJobs {
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(JobData.findByValue(searchTerm));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -110,7 +114,23 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        if (someJobs.size() == 0) {
+            System.out.println("Search result not found.");
+        } else {
+            for (int n = 0; n < someJobs.size(); n++ ) {
 
-        System.out.println("printJobs is not implemented yet");
+                System.out.println("*****");
+
+                for (Map.Entry<String, String> job : someJobs.get(n).entrySet()) {
+                    String key = job.getKey();
+                    String value = job.getValue();
+                    if (someJobs.size() != 0) {
+                        System.out.println(key + ": " + value);
+                    }
+                }
+                System.out.println("***** \n");
+            }
+        }
     }
 }
+
